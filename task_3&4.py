@@ -91,42 +91,65 @@ class Lecturer(Mentor):
             return 'Ошибка'
 
 
-best_student = Student('Donald', 'Trump', 'M')
-best_student.courses_in_progress += ['Python']
+student_1 = Student('Donald', 'Trump', 'M')
+student_1.courses_in_progress += ['Python']
+student_2 = Student('Peter', 'Pan', 'M')
+student_2.courses_in_progress += ['Python']
 
-bad_student = Student('Peter', 'Pan', 'M')
-bad_student.courses_in_progress += ['Python']
+lecturer_1 = Lecturer('Ilon', 'Musk')
+lecturer_1.courses_attached += ['Python']
+lecturer_2 = Lecturer('Elon', 'Musk')
+lecturer_2.courses_attached += ['Python']
 
-foolish_student = Student('Homer', 'Simpson', 'M')
-foolish_student.courses_in_progress += ['Java']
- 
-cool_lector = Lecturer('Ilon', 'Musk')
-cool_lector.courses_attached += ['Python']
-cool_lector.courses_attached += ['Java']
+reviewer_1 = Reviewer('Mark', 'Zuckerberg')
+reviewer_1.courses_attached += ['Python']
+reviewer_2 = Reviewer('Jeff', 'Bezos')
+reviewer_2.courses_attached += ['Python']
 
-bad_lector = Lecturer('Olga', 'Buzova')
-bad_lector.courses_attached += ['Python']
-bad_lector.courses_attached += ['Java']
+reviewer_1.rate_hw(student_1, 'Python', 4)
+reviewer_1.rate_hw(student_2, 'Python', 1)
+reviewer_2.rate_hw(student_1, 'Python', 5)
 
-cool_lector.receive_grade(best_student, 'Python', 5)
-cool_lector.receive_grade(bad_student, 'Python', 5)
-cool_lector.receive_grade(foolish_student, 'Java', 4)
+lecturer_1.receive_grade(student_1, 'Python', 5)
+lecturer_1.receive_grade(student_2, 'Python', 3)
+lecturer_2.receive_grade(student_1, 'Python', 4)
 
-bad_lector.receive_grade(best_student, 'Python', 4)
-bad_lector.receive_grade(bad_student, 'Python', 5)
-bad_lector.receive_grade(foolish_student, 'Java', 5)
+print(student_1)
+print(student_2)
+print(lecturer_1)
+print(lecturer_2)
+print(reviewer_1)
+print(reviewer_2)
+print(student_1 == student_2)
+print(lecturer_1 == lecturer_2)
 
-cool_reviewer = Reviewer('Ilon', 'Musk')
-cool_reviewer.courses_attached += ['Python']
-cool_reviewer.courses_attached += ['Java']
-cool_reviewer.rate_hw(best_student, 'Python', 5)
-cool_reviewer.rate_hw(bad_student, 'Python', 2)
-cool_reviewer.rate_hw(foolish_student, 'Java', 2)
 
-print(best_student)
-print(cool_lector)
-print(cool_reviewer)
+def average_grade_students(students, course):
+    total_grades = 0
+    count = 0
+    for student in students:
+        if course in student.grades:
+            total_grades += sum(student.grades[course])
+            count += len(student.grades[course])
+    if count == 0:
+        return 0
+    return round(total_grades / count, 2)
 
-print(best_student == bad_student)
-print(bad_student == foolish_student)
-print(cool_lector == bad_lector)
+
+def average_grade_lecturers(lecturers, course):
+    total_grades = 0
+    count = 0
+    for lecturer in lecturers:
+        if course in lecturer.grades:
+            total_grades += sum(lecturer.grades[course])
+            count += len(lecturer.grades[course])
+    if count == 0:
+        return 0
+    return round(total_grades / count, 2)
+
+
+students = [student_1, student_2]
+lecturers = [lecturer_1, lecturer_2]
+
+print(average_grade_students(students, 'Python'))
+print(average_grade_lecturers(lecturers, 'Python'))
